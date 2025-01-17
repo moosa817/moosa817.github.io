@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esports Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 240px;
+            background-color: #ffffff;
+            border-right: 1px solid #ddd;
+            color: #000;
+            padding: 20px;
+            transition: 0.3s;
+        }
+
+        .sidebar h4 {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .sidebar .nav-item {
+            margin: 10px 0;
+        }
+
+        .sidebar .nav-link {
+            color: #000;
+            font-size: 16px;
+            padding: 8px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .sidebar .nav-link:hover {
+            background-color: #f8f9fa;
+        }
+
+        .sidebar .badge {
+            background-color: #50acf7;
+            margin-left: 10px;
+        }
+
+        .sidebar.collapsed {
+            width: 60px;
+        }
+
+        .sidebar.collapsed .nav-link {
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 260px;
+            padding: 20px;
+            transition: margin-left 0.3s;
+        }
+
+        .main-content.collapsed {
+            margin-left: 60px;
+        }
+
+        .table-container {
+            margin-top: 20px;
+        }
+
+        /* Adjust DataTables styles */
+        .dataTables_wrapper .dataTables_filter {
+            float: right;
+        }
+
+        .dataTables_wrapper .dataTables_paginate {
+            float: right;
+        }
+
+        .dataTables_wrapper .dataTables_length {
+            float: left;
+        }
+
+        .dataTables_wrapper .dataTables_info {
+            float: left;
+        }
+
+        /* Responsive Table */
+        @media (max-width: 767px) {
+            .table-container table {
+                width: 100%;
+                display: block;
+                overflow-x: auto;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .sidebar.collapsed {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 15px;
+            }
+
+            .nav-link {
+                font-size: 14px;
+            }
+
+            .nav-link .badge {
+                font-size: 12px;
+            }
+        }
+
+        /* Button Styles */
+        .btn-primary {
+            margin-left: 10px;
+        }
+
+        #esportsTable {
+            font-size: 12px;
+            /* Smaller font size */
+            margin: 0 auto;
+            /* Center the table */
+            width: 100%;
+            /* Full width */
+        }
+
+        #esportsTable th,
+        #esportsTable td {
+            padding: 5px 10px;
+            /* Reduce padding for compactness */
+        }
+
+        #esportsTable td input[type="checkbox"] {
+            width: 15px;
+            height: 15px;
+        }
+
+        /* Adjust table layout for compactness */
+        .table-container {
+            overflow-x: auto;
+            /* Enable horizontal scroll on smaller screens */
+        }
+
+        /* Make the table container smaller for mobile views */
+        @media (max-width: 768px) {
+            #esportsTable {
+                font-size: 10px;
+                /* Even smaller font size for mobile */
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <h4>ESPORTS</h4>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a href="#" class="nav-link d-flex justify-content-between align-items-center">
+                    COD <span class="badge">28</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link d-flex justify-content-between align-items-center">
+                    CSGO <span class="badge">73</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link d-flex justify-content-between align-items-center">
+                    LOL <span class="badge">79</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link d-flex justify-content-between align-items-center">
+                    VAL <span class="badge">42</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link d-flex justify-content-between align-items-center">
+                    DOTA <span class="badge">6</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link d-flex justify-content-between align-items-center">
+                    HALO <span class="badge">0</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="main-content">
+        <div class="d-flex justify-content-between align-items-center">
+            <h4>COD</h4>
+            <div>
+                <button class="btn btn-primary">Refresh</button>
+                <button class="btn btn-primary">Logout</button>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="d-flex justify-content-start align-items-center my-3">
+            <button class="btn btn-outline-primary me-2">Lines</button>
+            <button class="btn btn-outline-primary me-2">Pairs</button>
+
+            <div class="options-tab">
+                <label for="playerFilter">Player:</label>
+                <select id="playerFilter">
+                    <option value="">All Players</option>
+                </select>
+
+                <label for="statTypeFilter">Stat Type:</label>
+                <select id="statTypeFilter">
+                    <option value="">All Stat Types</option>
+                </select>
+
+                <label for="teamFilter">Team:</label>
+                <select id="teamFilter">
+                    <option value="">All Teams</option>
+                </select>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="headshotsCheck">
+                <label class="form-check-label" for="headshotsCheck">Headshots</label>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="table-container">
+            <table id="esportsTable" class="display" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Used</th>
+                        <th>Difference</th>
+                        <th>Exposure</th>
+                        <th>Sport</th>
+                        <th>Player</th>
+                        <th>Team</th>
+                        <th>Opponent</th>
+                        <th>Stat Type</th>
+                        <th>Prize Picks</th>
+                        <th>Underdog</th>
+                        <th>Time on Game</th>
+                        <th>PrizePicks Bet</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- First row -->
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>1.5</td>
+                        <td>57.5</td>
+                        <td>COD</td>
+                        <td>Gio</td>
+                        <td>Minnesota Rokkr</td>
+                        <td>Toronto Ultra</td>
+                        <td>MAPS 1-3 Kills</td>
+                        <td>56</td>
+
+                        <td>57.5</td>
+                        <td>3:35 AM</td>
+                        <td><input type="checkbox"></td>
+                    </tr>
+                    <!-- Second row -->
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>0.5</td>
+                        <td>56.5</td>
+                        <td>COD</td>
+                        <td>Estreal</td>
+                        <td>Minnesota Rokkr</td>
+                        <td>Toronto Ultra</td>
+                        <td>MAPS 1-3 Kills</td>
+                        <td>56</td>
+
+                        <td>56.5</td>
+                        <td>3:35 AM</td>
+                        <td><input type="checkbox"></td>
+                    </tr>
+
+                    <!-- Third row -->
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>2</td>
+                        <td>57</td>
+                        <td>COD</td>
+                        <td>Beans</td>
+                        <td>Toronto Ultra</td>
+                        <td>Minnesota Rokkr</td>
+                        <td>MAPS 1-3 Kills</td>
+                        <td>59</td>
+
+                        <td>57</td>
+                        <td>3:35 AM</td>
+                        <td><input type="checkbox"></td>
+                    </tr>
+
+                    <!-- Fourth row -->
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>0.5</td>
+                        <td>60.5</td>
+                        <td>COD</td>
+                        <td>NERO</td>
+                        <td>Minnesota Rokkr</td>
+                        <td>Toronto Ultra</td>
+                        <td>MAPS 1-3 Kills</td>
+                        <td>60</td>
+
+                        <td>60.5</td>
+                        <td>3:35 AM</td>
+                        <td><input type="checkbox"></td>
+                    </tr>
+
+                    <!-- Fifth row -->
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>1</td>
+                        <td>63</td>
+                        <td>COD</td>
+                        <td>CLEANX</td>
+                        <td>Toronto Ultra</td>
+                        <td>Minnesota Rokkr</td>
+                        <td>MAPS 1-3 Kills</td>
+                        <td>62</td>
+
+                        <td>63</td>
+                        <td>3:35 AM</td>
+                        <td><input type="checkbox"></td>
+                    </tr>
+
+                    <!-- Sixth row -->
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>0.5</td>
+                        <td>22</td>
+                        <td>COD</td>
+                        <td>INSIGHT</td>
+                        <td>Toronto Ultra</td>
+                        <td>Minnesota Rokkr</td>
+                        <td>MAPS 1 Kills</td>
+                        <td>22.5</td>
+
+                        <td>22</td>
+                        <td>3:35 AM</td>
+                        <td><input type="checkbox"></td>
+                    </tr>
+
+                    <!-- Seventh row -->
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>0.5</td>
+                        <td>24.5</td>
+                        <td>COD</td>
+                        <td>PAULEHX</td>
+                        <td>Minnesota Rokkr</td>
+                        <td>Toronto Ultra</td>
+                        <td>MAPS 1 Kills</td>
+                        <td>24</td>
+
+                        <td>24.5</td>
+                        <td>3:35 AM</td>
+                        <td><input type="checkbox"></td>
+                    </tr>
+
+                    <!-- Eighth row -->
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>0.5</td>
+                        <td>25.5</td>
+                        <td>COD</td>
+                        <td>Estreal</td>
+                        <td>Minnesota Rokkr</td>
+                        <td>Toronto Ultra</td>
+                        <td>MAPS 1 Kills</td>
+                        <td>25</td>
+
+                        <td>25.5</td>
+                        <td>3:35 AM</td>
+                        <td><input type="checkbox"></td>
+                    </tr>
+
+                    <!-- Ninth row -->
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>1</td>
+                        <td>26.5</td>
+                        <td>COD</td>
+                        <td>Gio</td>
+                        <td>Minnesota Rokkr</td>
+                        <td>Toronto Ultra</td>
+                        <td>MAPS 1 Kills</td>
+                        <td>25.5</td>
+
+                        <td>26.5</td>
+                        <td>3:35 AM</td>
+                        <td><input type="checkbox"></td>
+                    </tr>
+
+                    <!-- Tenth row -->
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>0.5</td>
+                        <td>26.5</td>
+                        <td>COD</td>
+                        <td>JOEDECEIVES</td>
+                        <td>Toronto Ultra</td>
+                        <td>Minnesota Rokkr</td>
+                        <td>MAPS 1 Kills</td>
+                        <td>26</td>
+
+                        <td>26.5</td>
+                        <td>3:35 AM</td>
+                        <td><input type="checkbox"></td>
+                    </tr>
+
+                    <!-- Eleventh row -->
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>0.5</td>
+                        <td>27.5</td>
+                        <td>COD</td>
+                        <td>NERO</td>
+                        <td>Minnesota Rokkr</td>
+                        <td>Toronto Ultra</td>
+                        <td>MAPS 1 Kills</td>
+                        <td>27</td>
+
+                        <td>27.5</td>
+                        <td>3:35 AM</td>
+                        <td><input type="checkbox"></td>
+                    </tr>
+
+                    <!-- Twelfth row -->
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <td>1</td>
+                        <td>29.5</td>
+                        <td>COD</td>
+                        <td>CLEANX</td>
+                        <td>Toronto Ultra</td>
+                        <td>Minnesota Rokkr</td>
+                        <td>MAPS 1 Kills</td>
+                        <td>28.5</td>
+
+                        <td>29.5</td>
+                        <td>3:35 AM</td>
+                        <td><input type="checkbox"></td>
+                    </tr>
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#esportsTable').DataTable({
+                responsive: true,
+                paging: false,
+                searching: false,
+            });
+
+            const table = document.getElementById('esportsTable');
+            const playerFilter = document.getElementById('playerFilter');
+            const statTypeFilter = document.getElementById('statTypeFilter');
+            const teamFilter = document.getElementById('teamFilter');
+
+            const players = new Set();
+            const statTypes = new Set();
+            const teams = new Set();
+
+            // Loop through the table and extract unique players, stat types, and teams
+            Array.from(table.rows).forEach((row, index) => {
+                if (index === 0) return; // Skip the header row
+
+                const player = row.cells[4].textContent.trim();
+                const statType = row.cells[7].textContent.trim();
+                const team = row.cells[5].textContent.trim();
+
+                players.add(player);
+                statTypes.add(statType);
+                teams.add(team);
+            });
+
+            // Populate the filter options dynamically
+            players.forEach(player => {
+                const option = document.createElement('option');
+                option.value = player;
+                option.textContent = player;
+                playerFilter.appendChild(option);
+            });
+
+            statTypes.forEach(statType => {
+                const option = document.createElement('option');
+                option.value = statType;
+                option.textContent = statType;
+                statTypeFilter.appendChild(option);
+            });
+
+            teams.forEach(team => {
+                const option = document.createElement('option');
+                option.value = team;
+                option.textContent = team;
+                teamFilter.appendChild(option);
+            });
+
+            // Function to filter the table rows
+            function filterTable() {
+                const playerValue = playerFilter.value;
+                const statTypeValue = statTypeFilter.value;
+                const teamValue = teamFilter.value;
+
+                Array.from(table.rows).forEach((row, index) => {
+                    if (index === 0) return; // Skip the header row
+
+                    const player = row.cells[4].textContent.trim();
+                    const statType = row.cells[7].textContent.trim();
+                    const team = row.cells[5].textContent.trim();
+
+                    // Check if the row matches the filter criteria
+                    const matchesPlayer = playerValue ? player.includes(playerValue) : true;
+                    const matchesStatType = statTypeValue ? statType.includes(statTypeValue) : true;
+                    const matchesTeam = teamValue ? team.includes(teamValue) : true;
+
+                    // Toggle row visibility based on the filters
+                    row.style.display = (matchesPlayer && matchesStatType && matchesTeam) ? '' : 'none';
+                });
+            }
+
+            // Add event listeners for filter changes
+            playerFilter.addEventListener('change', filterTable);
+            statTypeFilter.addEventListener('change', filterTable);
+            teamFilter.addEventListener('change', filterTable);
+        });
+
+        // Sidebar toggle for smaller screens
+        $('#sidebar').click(function () {
+            $('#sidebar').toggleClass('collapsed');
+            $('#main-content').toggleClass('collapsed');
+        });
+
+    </script>
+</body>
+
+</html>

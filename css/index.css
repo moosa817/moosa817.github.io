@@ -1,0 +1,29 @@
+.sidebar {
+    height: 100vh;
+    background-color: #313c87;
+    /* Dark blue color */
+    color: white;
+    padding: 20px;
+}
+
+.sidebar .nav-item {
+    margin: 10px 0;
+}
+
+.sidebar .nav-link {
+    color: white;
+    font-size: 16px;
+    padding: 8px 15px;
+    border-radius: 5px;
+}
+
+.sidebar .nav-link:hover {
+    background-color: #50acf7;
+    /* Light blue color */
+}
+
+.sidebar .badge {
+    background-color: #50acf7;
+    /* Badge color */
+    margin-left: 10px;
+}
