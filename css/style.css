@@ -10,7 +10,7 @@
     --danger-color: #dc3545;
     --light-color: #f8f9fa;
     --dark-color: #343a40;
-    --dark-bg-color: #121212;
+    --dark-bg-color: rgba(33, 33, 33, .9);
     --light-bg-color: #f8f9fa;
 }
 
@@ -28,7 +28,7 @@ body.light-theme {
 
 /* Custom Dark Theme */
 body.dark-theme {
-    background-color: #121212;
+    background-color: var(--dark-bg-color);
     color: #ffffff;
 }
 

@@ -1,0 +1,220 @@
+ :root {
+     --primary-color: rgb(22, 117, 224);
+     --dark-color: #343a40;
+     --light-color: #f8f9fa;
+     --nav-bg: #575757;
+     --danger: #d62915;
+     --warning: #fa8900;
+     --success: #4CAF50;
+ }
+
+ /* Main Content */
+ .main-content {
+     margin-left: 170px;
+     padding: 20px;
+     transition: margin-left 0.3s;
+     height: 100vh;
+     /* Increased height to 90vh */
+ }
+
+ .main-content.collapsed {
+     margin-left: 60px;
+ }
+
+ .table-container {
+     margin-top: 10px;
+ }
+
+ /* Adjust DataTables styles */
+ .dataTables_wrapper .dataTables_filter {
+     float: right;
+ }
+
+
+ .dataTables_wrapper .dataTables_paginate {
+     float: right;
+ }
+
+ .dataTables_wrapper .dataTables_length {
+     float: left;
+ }
+
+ .dataTables_wrapper .dataTables_info {
+     float: left;
+ }
+
+ #esportsTable {
+     font-size: 14px;
+     /* Slightly larger for readability */
+     margin: 0 auto;
+     /* Center the table */
+     width: 100%;
+     /* Full width */
+     border-collapse: collapse;
+     /* Remove spacing between cells */
+ }
+
+ /* Table Header */
+ #esportsTable th {
+     padding: 8px 10px;
+     text-align: left;
+     background-color: #f4f4f4;
+     /* Light gray background for the heading */
+     color: #777;
+     /* Slightly darker text for the heading */
+     font-weight: 300;
+     /* Light font weight */
+     font-size: 13px;
+     /* Smaller font for the heading */
+     border-bottom: 2px solid #ddd;
+     /* Light border at the bottom */
+     position: relative;
+     /* Added for sorting icon positioning */
+ }
+
+ .dark-theme #esportsTable th {
+     background-color: var(--nav-bg);
+     /* Dark background for the heading */
+     color: #fff;
+     /* White text for the heading */
+ }
+
+ #esportsTable td {
+     padding: 10px 12px;
+     border-bottom: 1px solid #ddd;
+     /* Light border for rows */
+     vertical-align: middle;
+ }
+
+ /* Table Row Hover Effect */
+ #esportsTable tbody tr:hover {
+     background-color: #f1f1f1;
+     /* Light hover effect */
+ }
+
+ .dark-theme #esportsTable tbody tr:hover {
+     background-color: #333;
+     /* Dark hover effect */
+ }
+
+ /* Sorting icon styles */
+ #esportsTable th.sorting_asc::after,
+ #esportsTable th.sorting_desc::after {
+     content: '';
+     /* Remove default icon */
+     width: 8px;
+     height: 8px;
+     display: inline-block;
+     margin-left: 8px;
+     /* Add margin to space out the icon */
+     border-left: 2px solid #777;
+     border-bottom: 2px solid #777;
+ }
+
+ #esportsTable th.sorting_asc::after {
+     transform: rotate(-45deg);
+ }
+
+ #esportsTable th.sorting_desc::after {
+     transform: rotate(135deg);
+ }
+
+ /* Adjust table layout for compactness */
+ .table-container {
+     overflow-x: auto;
+     /* Enable horizontal scroll on smaller screens */
+     max-height: 100vh;
+     /* Set max-height for scroll */
+     overflow-y: auto;
+     /* Enable vertical scroll */
+ }
+
+ /* Scrollbar Styling */
+ .table-container::-webkit-scrollbar {
+     width: 8px;
+ }
+
+ .table-container::-webkit-scrollbar-thumb {
+     background-color: lightgray;
+     /* Match the primary color */
+     border-radius: 4px;
+ }
+
+ .dark-theme .table-container::-webkit-scrollbar-thumb {
+     background-color: #333;
+     /* Dark scrollbar thumb */
+ }
+
+ .table-container::-webkit-scrollbar-track {
+     background-color: #f1f1f1;
+     /* Light background for the track */
+ }
+
+ .dark-theme .table-container::-webkit-scrollbar-track {
+     background-color: var(--nav-bg);
+     /* Light background for the track */
+ }
+
+ .dark-theme .table-container::-webkit-scrollbar-thumb {
+     background-color: black;
+     /* Dark scrollbar thumb */
+ }
+
+ .dark-theme .table-container::-webkit-scrollbar-thumb {
+     background-color: #333;
+     /* Dark scrollbar thumb */
+ }
+
+ /* Make the table container smaller for mobile views */
+ @media (max-width: 768px) {
+     #esportsTable {
+         font-size: 12px;
+         /* Even smaller font size for mobile */
+     }
+ }
+
+ @media (max-width: 767px) {
+     .table-container table {
+         width: 100%;
+         display: block;
+         overflow-x: auto;
+     }
+
+     .main-content {
+         margin-left: 0;
+         padding: 15px;
+     }
+ }
+
+
+ .number {
+     min-width: 45px;
+     max-width: 45px;
+     color: white;
+     display: inline-block;
+     padding: 6px 12px;
+     /* Adjust padding for both sides */
+     border-radius: 4px;
+     text-align: center;
+     line-height: 1.2;
+ }
+
+ .bg-red {
+     background-color: var(--danger);
+ }
+
+ .bg-orange {
+     background-color: var(--warning);
+ }
+
+ .bg-green {
+     background-color: var(--success);
+ }
+
+ .dark-theme .bg-normal {
+     color: white;
+ }
+
+ .light-theme .bg-normal {
+     color: black;
+ }

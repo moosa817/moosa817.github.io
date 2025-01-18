@@ -274,80 +274,61 @@
      }
  }
 
- .center-filter {
-     display: flex;
-     position: absolute;
-     left: 40%;
+ .active-link {
+     color: var(--primary-color) !important;
  }
 
- .custom-btn-group {
-     padding: 0;
+ #content {
+     margin-left: 180px;
+     padding: 20px;
+     transition: 0.3s;
  }
 
- .filter-button {
-     border-radius: 10px;
-     padding: 4px;
-     opacity: 50%;
-     border: 1px solid #ddd;
-
- }
-
- .dark-theme .filter-button {
-     background-color: var(--dark-color);
-     color: white;
- }
-
- .light-theme .filter-button {
-     background-color: var(--light-color);
-     color: black;
- }
-
- .sub-nav {
-     display: flex;
-     justify-items: space-between;
-     align-items: center;
- }
-
- /* smaller  screen*/
+ /* smaller screen */
  @media (max-width: 768px) {
-     .sub-nav {
-         display: block;
+     #content {
+         margin-left: 0;
      }
  }
 
- .custom-btn-group {
-     display: flex;
-     gap: 0;
-     /* Remove spacing between buttons */
- }
-
- .custom-btn {
-     border-radius: 0;
-
-     padding: 5px 15px;
+ .custom-table {
+     width: 100%;
+     border-collapse: collapse;
      font-size: 14px;
-     color: white;
-     /* Primary color */
-     border: none;
-     /* Remove individual rounding */
-     cursor: pointer;
-     transition: background-color 0.3s ease, transform 0.2s ease;
-
+     text-align: left;
  }
 
- .dark-theme .custom-btn {
-     background-color: #575757;
+ .custom-table th,
+ .custom-table td {
+     padding: 12px 8px;
+     /* Padding for cells */
+     text-align: left;
  }
 
- .light-theme .custom-btn {
-     background-color: var(--light-color);
-     color: black;
- }
-
-
- .custom-btn.active {
-     background-color: var(--primary-color);
+ .custom-table thead th {
+     border-bottom: 2px solid #dee2e6;
+     /* Light bottom border for header */
      font-weight: bold;
-     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-     color: white;
+     background-color: #f8f9fa;
+     /* Subtle background for header */
+ }
+
+ .dark-theme .custom-table thead th {
+     background-color: var(--nav-bg);
+     color: #ffffff;
+ }
+
+ .custom-table tbody tr {
+     border-top: 1px solid #dee2e6;
+     /* Light horizontal line between rows */
+ }
+
+ .custom-table tbody tr:hover {
+     background-color: #f8f9fa;
+     /* Optional hover effect for better UX */
+ }
+
+ .dark-theme .custom-table tbody tr:hover {
+     background-color: #333;
+     /* Optional hover effect for better UX */
  }
