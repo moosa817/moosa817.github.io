@@ -232,3 +232,48 @@
  .light-theme .bg-normal {
      color: #575757;
  }
+
+
+ .info-icon {
+     width: 24px;
+     /* Smaller icon size */
+     height: 24px;
+     position: relative;
+     /* Required for absolute positioning of child elements */
+     fill: #575757;
+     /* Main icon color */
+ }
+
+ .info-icon .badge-circle {
+     fill: blue;
+     /* Blue circle */
+ }
+
+ .info-icon .badge-text {
+     fill: white;
+     /* White text inside the circle */
+     font-size: 10px;
+     /* Smaller font for the number */
+     font-family: Arial, sans-serif;
+     /* Font style */
+     font-weight: bold;
+     /* Bold text */
+ }
+
+ .info-badge-wrapper {
+     position: relative;
+     /* Position relative for proper alignment of badge */
+     display: inline-block;
+     /* Keep it inline with other elements */
+ }
+
+ .badge-wrapper {
+     position: absolute;
+     top: -10px;
+     /* Adjust circle position */
+     right: -9px;
+ }
+
+ .team-count {
+     color: white;
+ }

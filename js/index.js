@@ -46,19 +46,19 @@ document.addEventListener('DOMContentLoaded', function () {
     // Populate the filter options dynamically
     players.forEach(player => {
         const label = document.createElement('label');
-        label.innerHTML = `<input type="checkbox" class="playerFilter" value="${player}"> ${player}`;
+        label.innerHTML = `<input type="checkbox" class="playerFilter form-check-input" value="${player}"> ${player}`;
         playerCheckboxes.appendChild(label);
     });
 
     statTypes.forEach(statType => {
         const label = document.createElement('label');
-        label.innerHTML = `<input type="checkbox" class="statTypeFilter" value="${statType}"> ${statType}`;
+        label.innerHTML = `<input type="checkbox" class="statTypeFilter form-check-input" value="${statType}"> ${statType}`;
         statTypeCheckboxes.appendChild(label);
     });
 
     teams.forEach(team => {
         const label = document.createElement('label');
-        label.innerHTML = `<input type="checkbox" class="teamFilter" value="${team}"> ${team}`;
+        label.innerHTML = `<input type="checkbox" class="teamFilter form-check-input" value="${team}"> ${team}`;
         teamCheckboxes.appendChild(label);
     });
 
@@ -169,6 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
     checkboxes.forEach((checkbox) => {
         checkbox.addEventListener("change", () => {
             const row = checkbox.closest("tr"); // Get the parent row of the clicked checkbox
+            row.querySelector(".exposure").classList.add("opacity-50");
             const teamName = row.querySelector("td:nth-child(6)").textContent.trim(); // Get the team name
             const allRows = document.querySelectorAll("tbody tr"); // Get all rows in the table
 
@@ -184,9 +185,26 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (teamCell && teamCell.textContent.trim() === teamName) {
                     const exposureCell = r.querySelector(".exposure");
                     if (sameTeamCount > 0) {
-                        exposureCell.innerHTML = `<i class="fa-solid fa-circle-info"></i>${sameTeamCount}`;
+                        exposureCell.innerHTML = ` <div class="info-badge-wrapper">
+  <!-- Main SVG Icon -->
+  <svg class="info-icon" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ErrorOutlineIcon">
+    <path d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"></path>
+  </svg>
+
+  <!-- Badge Circle and Text -->
+  <div class="badge-wrapper">
+    <svg width="20" height="20" fill="#1675E0" viewBox="0 0 24 24">
+      <!-- Circle -->
+      <circle class="badge-circle" cx="12" cy="12" r="10"></circle>
+      <!-- Text (Number) -->
+        <text x="50%" y="50%" text-anchor="middle" fill="#fff" font-size="12px" dy=".3em">${sameTeamCount}</text>
+    </svg>
+  </div>
+</div>`;
                     } else {
                         exposureCell.innerHTML = ""; // Clear the icon if no rows are selected
+                        exposureCell.classList.remove("opacity-50");
+
                     }
                 }
             });
@@ -206,3 +224,75 @@ $(document).ready(function () {
         $("#" + target).fadeIn();     // Show the targeted page
     });
 });
+
+
+document.addEventListener("DOMContentLoaded", function () {
+
+
+    const prizePicksCheckboxes = document.querySelectorAll(".prizePicksCheckbox");
+    const checkedCountElement = document.getElementById("checkedCount");
+    const clearButton = document.getElementById("clearChecks");
+
+    let checkedCount = 0;
+
+    // Function to update the counter
+    function updateCheckedCount() {
+        checkedCountElement.textContent = checkedCount;
+    }
+
+    // Add event listener to each checkbox
+    prizePicksCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener("change", function () {
+
+            if (this.checked) {
+                $('#checkedCountContainer').fadeIn();
+
+                checkedCount++;
+            } else {
+                if (checkedCount === 1) {
+                    $('#checkedCountContainer').fadeOut();
+                }
+                checkedCount--;
+            }
+            updateCheckedCount();
+        });
+    });
+
+    // Clear all checkboxes
+    clearButton.addEventListener("click", function () {
+        prizePicksCheckboxes.forEach(checkbox => {
+            checkbox.checked = false;
+        });
+        $('#checkedCountContainer').fadeOut();
+        checkedCount = 0;
+        updateCheckedCount();
+    });
+
+    // Initialize the counter
+    updateCheckedCount();
+});
+
+// dropdown search
+document.querySelectorAll('.rs-picker-menu-group-title').forEach((title) => {
+    title.addEventListener('click', () => {
+        const parent = title.parentElement;
+        parent.classList.toggle('folded');
+    });
+});
+
+
+function toggleFilter(sectionId) {
+    const section = document.getElementById(sectionId);
+    const icon = section.previousElementSibling.querySelector(".filter-icon");
+
+    // Toggle visibility
+    if (section.style.display === "none" || section.style.display === "") {
+        section.style.display = "block";
+        icon.classList.remove("fa-caret-down");
+        icon.classList.add("fa-caret-up");
+    } else {
+        section.style.display = "none";
+        icon.classList.remove("fa-caret-up");
+        icon.classList.add("fa-caret-down");
+    }
+}
