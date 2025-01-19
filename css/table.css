@@ -58,7 +58,7 @@
  #esportsTable th {
      padding: 8px 10px;
      text-align: left;
-     background-color: #f4f4f4;
+     background-color: white;
      /* Light gray background for the heading */
      color: #777;
      /* Slightly darker text for the heading */
@@ -84,6 +84,11 @@
      border-bottom: 1px solid #ddd;
      /* Light border for rows */
      vertical-align: middle;
+     box-shadow: none !important;
+ }
+
+ #esportsTable tbody tr {
+     box-shadow: none !important;
  }
 
  /* Table Row Hover Effect */
@@ -127,6 +132,15 @@
      /* Set max-height for scroll */
      overflow-y: auto;
      /* Enable vertical scroll */
+
+ }
+
+ .light-theme .table-container {
+     color: #575757;
+ }
+
+ .dark-theme .table-container {
+     color: white;
  }
 
  /* Scrollbar Styling */
@@ -212,9 +226,9 @@
  }
 
  .dark-theme .bg-normal {
-     color: white;
+     color: #575757;
  }
 
  .light-theme .bg-normal {
-     color: black;
+     color: #575757;
  }

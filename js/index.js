@@ -10,7 +10,9 @@ $(document).ready(function () {
                 "targets": [0],
                 "searchable": false // Disable search for this column
             }
-        ]
+        ],
+        stripeClasses: [], // Disables row striping
+
     });
 
 });
