@@ -298,9 +298,13 @@
  .filter-button {
      border-radius: 10px;
      padding: 4px;
-     opacity: 50%;
      border: 1px solid #ddd;
-
+     background-color: white !important;
+     color: gray !important;
+     display: flex;
+     justify-content: space-between;
+     width: 140px;
+     font-size: smaller;
  }
 
  .dark-theme .filter-button {
