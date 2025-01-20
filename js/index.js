@@ -296,3 +296,7 @@ function toggleFilter(sectionId) {
         icon.classList.add("fa-caret-down");
     }
 }
+$('.filter-button').click(function () {
+    $('.dropdown-content').toggle();
+    $('.filter-button').toggleClass('filter-border');
+});
